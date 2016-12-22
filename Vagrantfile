@@ -18,11 +18,13 @@ Vagrant.configure("2") do |config|
   config.vm.base_mac = "080027D14C66"
 
   config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.synced_folder ".", "/vagrant", :nfs => true, id: "vagrant-root"
+  config.vm.synced_folder ".", "/vagrant",  disabled: true
+  # config.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+
+  # config.vm.synced_folder ".", "/vagrant",  id: "vagrant-root" , :nfs => true, :mount_options => ['rw', 'vers=3', 'tcp', 'fsc', 'actimeo=2']
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
