@@ -3,11 +3,12 @@
 
 
 index('GET', [], Context) ->
-    case application:get_env(etelegram, api_token) of
+    case application:get_env(faceballs, api_token) of
         {ok, Token} ->
             io:format("~nFound token ~p~n", [Token]),
             %% Resp = etelegram:send_message(Token, '162344122', "Wgiasgiagsid!@#"),
-            Resp = etelegram:get_users(Token),
+            Resp = faceballs:text_message(Token, '1227983120609787', "WASGHASZZA!"),
+            %% Resp = etelegram:get_me(Token),
             io:format("~n~n~p~n~n", [Resp]);
         Resp ->
             io:format("Failed to fetch API Token for telegram ~n~p", [Resp])

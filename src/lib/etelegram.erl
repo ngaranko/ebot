@@ -7,8 +7,11 @@ send_message(Token, Peer, Message) ->
                  [{chat_id, Peer}, {text, list_to_binary(Message)}]).
 
 
-get_users(Token) ->
-    get_request(Token, "users.getUsers").
+get_me(Token) ->
+    get_request(Token, "getMe").
+
+get_updates(Token) ->
+    get_request(Token, "getUpdates").
 
 get_request(Token, APIMethod) ->
     get_request(Token, APIMethod, []).
@@ -24,6 +27,6 @@ get_request(Token, APIMethod, Params) ->
 post_request(Token, APIMethod, Params) ->
     Url = lists:concat(["https://api.telegram.org/", "bot", Token, "/", APIMethod]),
 
-    Response = restc:request(post, json,  Url, [], Params, [{insecure, true}]),
+    Response = restc:request(post, json,  Url, [], [], Params),
     io:format("Yeah, response: ~p~n~n~n", [Response]),
     Response.
