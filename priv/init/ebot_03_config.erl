@@ -14,9 +14,7 @@ config(Config) ->
     ok.
 
 app_config({App, Config}) ->
-    %lists:all(fun({Par, Val}) -> app_config_set_env(App, Par, Val) end, Config).
-    io:format("App: ~p~n", [App]),
-    io:format("Conf: ~p~n", [Config]).
+    lists:all(fun({Par, Val}) -> app_config_set_env(App, Par, Val) end, Config).
 
 app_config_set_env(App, Par, Val) ->
     application:set_env(App, Par, Val),
