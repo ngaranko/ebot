@@ -1,5 +1,5 @@
 -module(etelegram).
--compile(export_all).
+-export([send_message/3, get_me/1, get_updates/1, get_updates/2]).
 
 
 send_message(Token, Peer, Message) ->
@@ -11,7 +11,19 @@ get_me(Token) ->
     get_request(Token, "getMe").
 
 get_updates(Token) ->
-    get_request(Token, "getUpdates").
+    get_updates(Token, 0).
+
+get_updates(Token, Offset) ->
+    case get_request(Token, "getUpdates") of
+        {ok, 200, _Headers, [{<<"ok">>, true}, {<<"result">>, Results}]} ->
+            {ok, Results};
+        Other ->
+            {error, Other}
+    end.
+
+
+%%% Internal
+
 
 get_request(Token, APIMethod) ->
     get_request(Token, APIMethod, []).
