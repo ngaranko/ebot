@@ -19,22 +19,21 @@ index('GET', [], Context) ->
     {ok, Context};
 
 index('POST', [], Context) ->
-    io:format("REq: ~p~n~n", [Req:params()]),
+    io:format("REq: ~p~n~n", [get_params()]),
     {json, [{status, "ok"}], Context}.
 
 
 fb('POST', [], Context) ->
-    io:format("REq: ~p~n~n", [Req:params()]),
+    io:format("REq: ~p~n~n", [get_params()]),
     {json, [{status, "ok"}], Context}.
 
 
-
 %% internal shit
-reply_to_messages(Token, []) ->
+reply_to_messages(_Token, []) ->
     ok;
 reply_to_messages(Token, [Update | Updates]) ->
     case Update of
-        [{<<"update_id">>, UpdateId}, {<<"message">>, [TheId, From, Chat, Date, TextData]}] ->
+        [{<<"update_id">>, _UpdateId}, {<<"message">>, [_TheId, From, _Chat, _Date, TextData]}] ->
             {<<"from">>, [{<<"id">>, ReplyToId}, {<<"first_name">>, ReplyToName} | _]} = From,
             case TextData of
                 {<<"text">>, <<"/start">>} ->
@@ -47,3 +46,9 @@ reply_to_messages(Token, [Update | Updates]) ->
             io:format("Not sure what to do, skip: ~p~n", [SomethingElse])
     end,
     reply_to_messages(Token, Updates).
+
+
+
+get_params() ->
+    %% Nasty technique helps reducing syntax errors highlighted in code.
+    Req:params().

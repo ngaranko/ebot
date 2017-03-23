@@ -31,7 +31,7 @@ get_request(Token, APIMethod) ->
 get_request(Token, APIMethod, Params) ->
     NewUrl = lists:concat(["https://api.telegram.org/", "bot", Token, "/", restc:construct_url(APIMethod, Params)]),
     io:format("URL ~p~n~n", [NewUrl]),
-    Response = restc:request(get, json, NewUrl, [], [], [], [{ versions, [ 'tlsv1.2' ] }]),
+    Response = restc:request(get, json, NewUrl, [], [], [], []),  % { versions, [ 'tlsv1.2' ] }]),
     io:format("Yeah, response: ~p~n~n~n", [Response]),
     Response.
 

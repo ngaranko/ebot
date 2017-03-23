@@ -3,6 +3,7 @@
 -define(CONFIG_LOCAL_FILE, "boss.local.config").
 
 init() ->
+    %% Load local configuration file.
     case file:consult(?CONFIG_LOCAL_FILE) of
         {ok, [Config]}  -> config(Config);
         {error, enoent} -> ok

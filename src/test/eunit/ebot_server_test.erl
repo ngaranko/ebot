@@ -19,12 +19,21 @@ suite_test_()->
 tests(Pid) ->
     io:format("Starting test ~p~n", [Pid]),
     [
-     {"Checks if empty entries result in list",
-      ?_test(check_empty_entries(Pid))}
+     {"Checks if basic messaging works",
+      ?_test(check_basic_messaging(Pid))},
+     {"Checks is service registration works",
+      ?_test(check_service_registration(Pid))}
     ].
 
-check_empty_entries(Pid) ->
-    ?assertEqual([], [Pid]).
+
+check_basic_messaging(Pid) ->
+    Response = ebot_server:user_message(Pid, <<"/start">>),
+    ?assertEqual(command_not_found, Response).
+
+check_service_registration(Pid) ->
+    ?assertEqual(added, ebot_server:add_service(Pid, "^tasks", fun test_tasks/1)),
+    ?assertEqual({ok, ["tasks"]}, ebot_server:user_message(Pid, "tasks")).
+
 
 
 %% ===================================================================
@@ -40,3 +49,7 @@ start() ->
 
 stop(Pid) ->
     ebot_server:stop(Pid).
+
+
+test_tasks(Message) ->
+    Message.
