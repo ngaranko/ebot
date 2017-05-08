@@ -1,0 +1,2 @@
+-module(task, [Id, Text, Scheduled, Deadline, Completed]).
+-compile(export_all).

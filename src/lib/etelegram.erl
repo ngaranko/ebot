@@ -14,7 +14,7 @@ get_updates(Token) ->
     get_updates(Token, 0).
 
 get_updates(Token, Offset) ->
-    case get_request(Token, "getUpdates") of
+    case get_request(Token, "getUpdates", [{offset, Offset}]) of
         {ok, 200, _Headers, [{<<"ok">>, true}, {<<"result">>, Results}]} ->
             {ok, Results};
         Other ->
